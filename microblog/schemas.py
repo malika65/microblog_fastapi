@@ -6,15 +6,17 @@ class PostBase(BaseModel):
     title: str = ''
     text: str = ''
 
-        
+   
         
 class PostList(PostBase):
     id: int
     date: Optional[datetime]
+    parent_id: int = None
     
 
 class PostSingle(PostList):
-    children: List[PostBase]
+    children: List[PostBase] = []
+    
     
 class PostCreate(PostBase):
     parent_id: Optional[int] = None
