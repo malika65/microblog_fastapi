@@ -1,17 +1,18 @@
-import os
-from sqlalchemy.ext.declarative import declarative_base
+import databases
+from sqlalchemy.ext.declarative import DeclarativeMeta,declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 
 
 DATABASE_URI = 'postgresql://maks:123@localhost/microblog'
 
 
-engine = create_engine(DATABASE_URI)
+engine = create_engine(DATABASE_URI, connect_args={"check_same_thread": False} )
 
-SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
+# SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
+database = databases.Database(DATABASE_URI)
 
-Base = declarative_base()
+Base: DeclarativeMeta = declarative_base()
 
 
 

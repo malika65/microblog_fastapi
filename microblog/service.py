@@ -1,17 +1,14 @@
+import databases
 from sqlalchemy.orm import Session
 
-from .models import Post
+from .models import posts
 from .schemas import PostCreate
+from core.db import database
+
+async def get_post_list():
+    return await database.fetch_all(query=posts.select())
 
 
-def get_post_list(db: Session):
-    return db.query(Post).all()
-
-
-def create_post(db: Session, item: PostCreate):
-    post = Post(**item.dict())
-    db.add(post)
-    db.commit()
-    db.refresh(post)
-    
-    return post
+async def create_post(item: PostCreate):
+    post = posts.insert().values(**item.dict())
+    return await database.execute(post)

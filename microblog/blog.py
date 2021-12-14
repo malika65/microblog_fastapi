@@ -9,10 +9,10 @@ from . import service
 router = APIRouter()
 
 @router.get('/', response_model=List[PostList])
-def post_list(db: Session = Depends(get_db)):
-    return service.get_post_list(db)
+async def post_list():
+    return await service.get_post_list()
 
 @router.post('/')
-def post_create(item: PostCreate, db: Session = Depends(get_db)):
-    return service.create_post(db, item)
+async def post_create(item: PostCreate):
+    return await service.create_post(item)
 
